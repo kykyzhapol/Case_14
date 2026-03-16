@@ -1,5 +1,14 @@
+import pygame
 '''
 aka, role A
+Ok, how I see grid (like a matrix)
+example:
+0 0 1 0 1 - list
+0 1 0 1 1
+0 1 1 1 0
+1 0 1 0 0
+1 0 0 1 1
+grid is list of lists
 '''
 
 
