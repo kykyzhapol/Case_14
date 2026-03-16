@@ -1,3 +1,5 @@
+from dataclasses import replace
+
 import pygame
 '''
 aka, role A
@@ -24,5 +26,21 @@ def load_grid_from_file(filename: str) -> list[list[int]]:
 def save_grid_to_file(grid: list[list[int]], filename: str) -> None:
     """Сохраняет сетку в файл."""
 
-def set_cell(grid: list[list[int]], row: int, col: int, value: int) -> None:
-    """Устанавливает состояние конкретной клетки (понадобится для рисования мышкой)."""
+def set_cell(grid: list[list[int]], row: int, col: int, value: int) -> list[list[int]]:
+    """
+    Возвращает новую сетку с изменённым состоянием клетки (row, col).
+    Исходная сетка не изменяется.
+    """
+    # Проверка допустимости индексов
+    if not (0 <= row < len(grid) and 0 <= col < len(grid[0])):
+        raise ValueError("Недопустимые координаты клетки")
+
+    # Если значение уже совпадает, можно сразу вернуть исходную сетку
+    if grid[row][col] == value:
+        return grid
+
+    new_grid = grid[:]
+    new_row = grid[row][:col] + [value] + grid[row][col+1:]
+    new_grid[row] = new_row
+
+    return new_grid
