@@ -1,6 +1,7 @@
 from dataclasses import replace
 
-import pygame
+import pygame as pg
+import random
 '''
 aka, role A
 Ok, how I see grid (like a matrix)
@@ -16,9 +17,16 @@ grid is list of lists
 
 def create_empty_grid(rows: int, cols: int) -> list[list[int]]:
     """Создаёт пустую сетку (все клетки мертвы)."""
+    empty_frid = [[0 for _ in range(cols)] for _ in range(rows)]
+
+    return empty_frid
 
 def random_grid(rows: int, cols: int, prob: float = 0.5) -> list[list[int]]:
     """Заполняет сетку случайными значениями с заданной вероятностью жизни."""
+    rand_grid = [random.choices([1, 0], [prob, 1 - prob], k = cols) 
+                 for _ in range(rows)]
+    
+    return rand_grid
 
 def load_grid_from_file(filename: str) -> list[list[int]]:
     """Читает сетку из текстового файла. Формат файла обсуждается командой."""
