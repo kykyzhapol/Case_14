@@ -35,16 +35,14 @@ def load_grid_from_file(filename: str) -> list[list[int]]:
     """Читает сетку из текстового файла. Формат файла обсуждается командой."""
     with open(filename, 'r', encoding='utf-8') as data:
         grid = json.load(data)
-        data.close()
-        return grid
+
+    return grid
 
 
 def save_grid_to_file(grid: list[list[int]], filename: str) -> None:
     """Сохраняет сетку в файл."""
-
     with open(filename, 'w', encoding='utf-8') as data:
         json.dump(grid, data)
-        data.close()
 
 
 def set_cell(grid: list[list[int]], row: int, col: int, value: int) -> list[list[int]]:
