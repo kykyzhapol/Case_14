@@ -29,9 +29,11 @@ def count_live_neighbors(grid: list[list[int]], row: int, col: int) -> int:
 def next_generation(grid: list[list[int]]) -> list[list[int]]:
     """Вычисляет следующее поколение и возвращает новую сетку (не изменяя исходную)."""
 
-    new_grid = grid
+    new_grid = [row[:] for row in grid]
+    
     n = len(grid)
     m = len(grid[0])
+    
     for row in range(n):
         for col in range(m):
             neighbors = count_live_neighbors(grid, row, col)
