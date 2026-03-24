@@ -1,5 +1,4 @@
 import pygame as pg
-import constants as const
 import ru_local as loc
 
 
