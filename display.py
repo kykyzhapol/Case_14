@@ -1,4 +1,5 @@
 import pygame as pg
+import constants as const
 import ru_local as loc
 
 
@@ -142,7 +143,7 @@ def draw_ui(screen: pg.Surface,
     screen.blit(surf_status, (x_pos, y_pos_status))    
     
     # Render information about: control keys
-    control_keys = const.control_keys
+    control_keys = loc.control_keys
 
     y_pos = indent
     for line in control_keys:
@@ -192,7 +193,7 @@ def handle_color_scheme(colors: dict) -> None:
                       ('alive', 'dead', 'grid', 'text')
                       The dictionary is modified in place.
     '''
-    color_themes = loc.color_themes
+    color_themes = const.color_themes
     # Get current color theme as a tuple of values to compare
     current_values = tuple(colors.items())
 
