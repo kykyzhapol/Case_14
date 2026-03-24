@@ -47,7 +47,7 @@ def draw_grid(screen: pg.Surface,
               grid: list[list[int, int, int]],
               colors: dict[str : tuple],
               cell_size: int,
-              show_grid: bool = True):
+              show_grid: bool = True) -> None:
     '''
     The function renders the entire game grid including background,
     live cells, and optional grid lines.
@@ -97,7 +97,7 @@ def draw_ui(screen: pg.Surface,
             speed: float,
             running: bool,
             title: str,
-            colors: dict[str : tuple]):
+            colors: dict[str : tuple]) -> None:
     '''
     The function renders text-based user interface information including
     game title, generation count, simulation speed, and game state.
