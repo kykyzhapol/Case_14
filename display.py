@@ -147,11 +147,11 @@ def draw_ui(screen: pg.Surface,
 
     y_pos = indent
     for line in control_keys:
-        # Создание поверхности
+        # Creating a surface
         control_key_surf = font_small.render(line, True, colors['text'])
         # Text coordinates
         x_pos = screen.get_width() - control_key_surf.get_width() - indent
-        # Отображение поверхности
+        # Surface display
         screen.blit(control_key_surf, (x_pos, y_pos))
         
         y_pos += control_key_surf.get_height()
