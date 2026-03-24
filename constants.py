@@ -25,16 +25,3 @@ color_themes = {
         'text': (50, 25, 0)
         }
     }
-
-
-control_keys = {
-    "SPACE": "Pause / Resume",
-    "UP": "Increase speed",
-    "DOWN": "Decrease speed",
-    "R": "Random grid",
-    "C": "Clear grid",
-    "S": "Save grid",
-    "L": "Load grid",
-    "Mouse click": "Toggle cell",
-    "ESC": "Exit"
-}
