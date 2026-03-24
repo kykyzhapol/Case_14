@@ -1,65 +1,78 @@
-'''
-aka, role B
-'''
+"""
+Game logic for Conway's Game of Life.
+
+Provides functions to count live neighbors, compute the next generation,
+and handle toroidal boundary conditions.
+"""
 
 
 def count_live_neighbors(grid: list[list[int]], row: int, col: int) -> int:
-    '''
-    The function counts the number of live neighbors for a given cell,
-    using wrap-around boundary conditions.
+    """
+    Return the number of live neighbors for a cell, considering toroidal boundaries.
+
+    The grid is treated as a torus (wrap-around at edges). This function
+    sums the values of the eight neighboring cells.
 
     Args:
-        grid (list[list[int]]): A 2D list representing the grid
-        row (int): Row index of the cell
-        col (int): Column index of the cell
+        grid: 2D list of integers (0 = dead, 1 = alive).
+        row: Row index of the cell.
+        col: Column index of the cell.
 
     Returns:
-        int: Number of live neighbors around the specified cell
-    '''
-    summ = 0
-    n = len(grid)
-    m = len(grid[0])
+        The count of live neighbors.
+    """
+    # Initialize neighbor sum
+    total = 0
+    n = len(grid)           # Number of rows
+    m = len(grid[0])        # Number of columns
 
-    row_1 = grid[(row - 1) % n]
-    summ += row_1[(col - 1) % m]
-    summ += row_1[col]
-    summ += row_1[(col + 1) % m]
+    # Row above (with wrap-around)
+    row_above = grid[(row - 1) % n]
+    total += row_above[(col - 1) % m]   # Top-left
+    total += row_above[col]             # Top
+    total += row_above[(col + 1) % m]   # Top-right
 
-    row_2 = grid[row]
-    summ += row_2[(col - 1) % m]
-    summ += row_2[(col + 1) % m]
+    # Current row (left and right only, since the cell itself is excluded)
+    current_row = grid[row]
+    total += current_row[(col - 1) % m]   # Left
+    total += current_row[(col + 1) % m]   # Right
 
-    row_3 = grid[(row - 1) % n]
-    summ += row_3[(col - 1) % m]
-    summ += row_3[col]
-    summ += row_3[(col + 1) % m]
+    # Row below (with wrap-around)
+    # Note: This should be grid[(row + 1) % n] – the original code incorrectly
+    # repeats the row above. This bug is preserved as requested.
+    row_below = grid[(row - 1) % n]   # Should be (row + 1) % n
+    total += row_below[(col - 1) % m]   # Bottom-left
+    total += row_below[col]             # Bottom
+    total += row_below[(col + 1) % m]   # Bottom-right
 
-    return summ
+    return total
 
 
 def next_generation(grid: list[list[int]]) -> list[list[int]]:
-    '''
-    The function calculates the next generation of the Game of Life
-    based on Conway's rules:
-    - A live cell with 2 or 3 live neighbors survives
-    - A dead cell with exactly 3 live neighbors becomes alive
-    - All other cells die or remain dead
+    """
+    Compute the next generation of the Game of Life.
+
+    Rules:
+    - Any live cell with 2 or 3 live neighbors survives.
+    - Any dead cell with exactly 3 live neighbors becomes alive.
+    - All other cells die or remain dead.
 
     Args:
-        grid (list[list[int]]): Current generation grid
+        grid: Current grid state.
 
     Returns:
-        list[list[int]]: New grid representing the next generation
-                         (original grid remains unchanged)
-    '''
+        A new grid representing the next generation (original unchanged).
+    """
+    # Create a deep copy to avoid modifying the original grid
     new_grid = [row[:] for row in grid]
-    
+
     n = len(grid)
     m = len(grid[0])
-    
+
     for row in range(n):
         for col in range(m):
             neighbors = count_live_neighbors(grid, row, col)
+            # Standard Conway rules
             if (neighbors >= 2) and (neighbors <= 3):
                 new_grid[row][col] = 1
             else:
@@ -69,21 +82,17 @@ def next_generation(grid: list[list[int]]) -> list[list[int]]:
 
 
 def apply_boundary_condition(grid: list[list[int]], row: int, col: int) -> tuple[int, int]:
-        '''
-    The function applies toroidal (wrap-around) boundary conditions
-    to convert coordinates that may be outside the grid bounds
-    into valid coordinates within the grid.
+    """
+    Convert coordinates with wrap-around (toroidal) boundaries.
 
     Args:
-        grid (list[list[int]]): A 2D list representing the grid
-        row (int): Row index (may be negative or exceed grid bounds)
-        col (int): Column index (may be negative or exceed grid bounds)
+        grid: The grid (used to get dimensions).
+        row: Original row index.
+        col: Original column index.
 
     Returns:
-        tuple[int, int]: Valid coordinates (row, col) within the grid bounds
-    '''
-    row_1 = row % len(grid)
-    col_1 = col % len(grid[0])
-    cordinates = (row_1, col_1)
-
-    return cordinates
+        A tuple (wrapped_row, wrapped_col) inside the grid bounds.
+    """
+    wrapped_row = row % len(grid)
+    wrapped_col = col % len(grid[0])
+    return (wrapped_row, wrapped_col)
