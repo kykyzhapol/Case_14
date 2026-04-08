@@ -117,7 +117,8 @@ def draw_ui(screen: pg.Surface,
         speed (float): Simulation speed in milliseconds per generation
         running (bool): Game state
         name_game (str): Title of the game
-        colors (dict[str : tuple]): Dictionary containing color values for UI elements
+        colors (dict[str : tuple]): Dictionary containing color values for
+                                    UI elements
     '''
     font_big = fonts[0]
     font_mid = fonts[1]
@@ -126,9 +127,10 @@ def draw_ui(screen: pg.Surface,
     # Render information about: name, generation, speed, game state
     # Headers
     text_title = title
-    text_gen = loc.gen.format(generation)
-    text_speed = loc.speed.format(int(speed))
-    text_status = loc.status.format('Запущена' if running else 'Пауза')
+    text_gen = loc.GENERATION_LABEL.format(generation)
+    text_speed = loc.SPEED_LABEL.format(int(speed))
+    text_status = loc.STATUS_LABEL.format(loc.STATUS_RUNNING if running 
+                                          else loc.STATUS_PAUSED)
 
     # Create surfaces
     surf_title = font_big.render(text_title, True, colors['text'])
@@ -151,7 +153,7 @@ def draw_ui(screen: pg.Surface,
     screen.blit(surf_status, (x_pos, y_pos_status))    
     
     # Render information about: control keys
-    control_keys = const.control_keys
+    control_keys = loc.CONTROLS
 
     y_pos = indent
     for line in control_keys:
@@ -197,11 +199,12 @@ def handle_color_scheme(colors: dict) -> None:
     This function is typically called when the user presses the 'N' key.
 
     Args:
-        colors (dict): Dictionary containing color values for different UI elements
+        colors (dict): Dictionary containing color values for different 
+                        UI elements
                       ('alive', 'dead', 'grid', 'text')
                       The dictionary is modified in place.
     '''
-    color_themes = loc.color_themes
+    color_themes = const.color_themes
     # Get current color theme as a tuple of values to compare
     current_values = tuple(colors.items())
 
